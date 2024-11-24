@@ -5,7 +5,6 @@
 
 extern void accelerationasm(int rows, float* input, int* output);
 
-// Updated function to allow Vf to be smaller than Vi
 void generate_random_input(float* input, int rows) {
     for (int i = 0; i < rows; i++) {
         input[i * 3] = (rand() % 200) - 100;       // rand() Vi (-100 to 99)
@@ -21,7 +20,7 @@ int main() {
     printf("Enter the number of cars: ");
     scanf("%d", &rows);
 
-   // Test 30 times
+    // Test 30 times
     repetitions = 30; 
 
     float* input = (float*)malloc(rows * 3 * sizeof(float)); 
@@ -42,18 +41,19 @@ int main() {
         // Correctness check for the first repetition only
         if (i == 0) {
             printf("Correctness check (first 10 rows):\n");
-            for (int k = 0; k < rows && k < 10; k++) { // Print first 10 results
-                float Vi = input[k * 3] * 0.27777778f; // Convert Vi to m/s
-                float Vf = input[k * 3 + 1] * 0.27777778f; // Convert Vf to m/s
-                float T = input[k * 3 + 2];
-                float expected_acceleration = (Vf - Vi) / T;
+            printf("Car   Vi (km/h)   Vf (km/h)   T (s)   Expected (m/s^2)   Computed (m/s^2)\n");
+            printf("----------------------------------------------------------------------------\n");
+            for (int k = 0; k < rows ; k++) { 
+                float Vi = input[k * 3];                 // Original Vi in km/h
+                float Vf = input[k * 3 + 1];             // Original Vf in km/h
+                float T = input[k * 3 + 2];              // Original T in seconds
+                float Vi_ms = Vi * 0.27777778f;          // Convert Vi to m/s
+                float Vf_ms = Vf * 0.27777778f;          // Convert Vf to m/s
+                float expected_acceleration = (Vf_ms - Vi_ms) / T;
                 int expected = (int)roundf(expected_acceleration);
 
-                if (output[k] != expected) {
-                    printf("Row %d: Expected %d, Got %d\n", k, expected, output[k]);
-                } else {
-                    printf("Row %d: Correct (%d m/s^2)\n", k, output[k]);
-                }
+                printf("%-6d%-12.2f%-12.2f%-8.2f%-20d%-20d\n",
+                       k, Vi, Vf, T, expected, output[k]);
             }
         }
     }
@@ -64,3 +64,4 @@ int main() {
 
     return 0;
 }
+
