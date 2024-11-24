@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<math.h>
 #include <time.h>
 
 extern void accelerationasm(int rows, float* input, int* output);
@@ -46,7 +47,7 @@ int main() {
                 float Vf = input[k * 3 + 1] * 0.27777778f; // Convert Vf to m/s
                 float T = input[k * 3 + 2];
                 float expected_acceleration = (Vf - Vi) / T;
-                int expected = (int)expected_acceleration;
+                int expected = (int)roundf(expected_acceleration);
 
                 if (output[k] != expected) {
                     printf("Row %d: Expected %d, Got %d\n", k, expected, output[k]);
