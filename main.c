@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 extern int asmaccelleration(float init, float final, float time);
 
@@ -9,33 +10,53 @@ int main()
     int count = 0;
     printf("How many matrices: ");
     scanf("%d", &count);
-    int *results = malloc(count * sizeof(float));
 
+    float *inits = malloc(count * sizeof(float));
+    float *finals = malloc(count * sizeof(float));
+    float *times = malloc(count * sizeof(float));
+    int *results = malloc(count * sizeof(float));
     int access = 0;
+
+    
     for (int i = 0; i < count; i++)
     {
-        float init = 0.0f;
-        float final = 0.0f;
-        float time = 0.0f;
+        float init = (rand() % (99 - 0 + 1)) + 0;
+        float final = (rand() % (200 - 50 + 1)) + 50;
+        float time = (rand() % 100) + 1;
 
-        printf("\nMatrix: %d\n", i+1);
-        printf("\nInitial Velocity (KM/H): ");
-        scanf("%f", &init);
-        printf("\nFinal Velocity (KM/H): ");
-        scanf("%f", &final);
-        printf("\nTime (seconds): ");
-        scanf("%f", &time);
+        printf("\n\nMatrix: %d\n\n", i+1);
+        printf("Initial Velocity (KM/H): %.2f\n", init);
+        printf("Final Velocity (KM/H): %.2f\n", final);
+        printf("Time (seconds): %.2f", time);
+
+        inits[access] = init;
+        finals[access] = final;
+        times[access] = time;
 
         results[access] = asmaccelleration(init, final, time);
         access++;
     }
 
-    printf("\nResults:\n");
-
+    printf("\n\nOutput Correctness Check: \n");
+    float to_ms = 0.27777778f;
     for (int i = 0; i < access; i++)
     {
-        printf("\n%d\n", results[i]);
+        float initVel = inits[i];
+        float finalVel = finals[i];
+        float timeTaken = times[i];
+
+        float expectedOutput = ((finalVel - initVel)*to_ms)/timeTaken;
+
+        int actualOutput = results[i];
+
+        printf("\nMatrix %d\n\n", i + 1);
+        printf("Input Initial Velocity: %.2f\n", initVel);
+        printf("Input Final Velocity: %.2f\n", finalVel);
+        printf("Input Time: %.2f\n", timeTaken);
+        printf("Expected Output: %d\n", (int)roundf(expectedOutput));
+        printf("Actual Output: %d\n", actualOutput);
     }
+    
 
     // clock_t t;
     // t = clock();

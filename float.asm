@@ -1,5 +1,5 @@
 section .data
-    toms dd 0.277777778
+    toms dd 0.27777778
 section .text
 global asmaccelleration
 asmaccelleration:
