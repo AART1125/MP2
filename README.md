@@ -13,10 +13,13 @@ Ouput: Integer Acceleration Values (m/s^2)
 # Analysis
 Average execution times based on number of rows:
 
-10 rows = 0.00000000s\n
-100 rows = 0.00000000s\n
-1000 rows = 0.00000000s\n
-10000 rows = 0.00003333s\n
+10 rows = 0.00000000s
+
+100 rows = 0.00000000s
+
+1000 rows = 0.00000000s
+
+10000 rows = 0.00003333s
 
 ## Screenshot
 ![Alt text](./Result.png?raw=true "10 row output")
