@@ -38,6 +38,7 @@ int main()
         }
         time_t end_time = time(NULL);
         timeExecuted += difftime(end_time, start_time);
+        
         if (i == 0)
         {
             float to_ms = 0.27777778f;
